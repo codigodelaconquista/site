@@ -1361,14 +1361,46 @@
       line-height: 1.15;
     }
 
-    .sales-testi-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .sales-testi-carousel {
+      position: relative;
+      margin-top: 34px;
+    }
+
+    .sales-testi-carousel .sales-testi-grid {
+      display: flex;
+      gap: 16px;
+      margin-top: 0;
+      overflow-x: auto;
+      padding: 2px 2px 14px;
+      scroll-behavior: smooth;
+      scroll-padding-inline: 2px;
+      scroll-snap-type: x mandatory;
+      scrollbar-color: rgba(198, 67, 91, 0.45) transparent;
+      scrollbar-width: thin;
+    }
+
+    .sales-testi-carousel .sales-testi-grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .sales-testi-carousel .sales-testi-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sales-testi-carousel .sales-testi-grid::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(198, 67, 91, 0.45);
     }
 
     .sales-testi-card {
+      flex: 0 0 calc((100% - 32px) / 3);
+      min-width: 0;
+      min-height: 330px;
       padding: 24px 20px;
       border: 1px solid var(--sales-line);
       background: #ffffff;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
 
     .sales-testi-top {
@@ -1378,16 +1410,15 @@
     }
 
     .sales-testi-avatar {
-      display: grid;
-      flex: 0 0 44px;
-      width: 44px;
-      height: 44px;
-      place-items: center;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(198, 67, 91, 0.18);
       border-radius: 50%;
       background: var(--sales-blush);
-      color: #3a1c28;
-      font-family: "Fraunces", Georgia, serif;
-      font-weight: 700;
+      box-shadow: 0 8px 18px -14px rgba(36, 18, 32, 0.75);
+      object-fit: cover;
+      object-position: center;
     }
 
     .sales-testi-name {
@@ -1413,6 +1444,89 @@
       color: var(--sales-text);
       font-size: 14.5px;
       line-height: 1.55;
+    }
+
+    .sales-testi-nav {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid var(--sales-line);
+      border-radius: 50%;
+      background: #ffffff;
+      color: var(--sales-rose-deep);
+      cursor: pointer;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+      transform: translateY(-50%);
+      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
+    }
+
+    .sales-testi-nav:hover {
+      background: var(--sales-paper);
+      transform: translateY(-50%) scale(1.04);
+    }
+
+    .sales-testi-nav.is-disabled {
+      cursor: default;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .sales-testi-nav--prev {
+      left: -14px;
+    }
+
+    .sales-testi-nav--next {
+      right: -14px;
+    }
+
+    .sales-testi-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .sales-testi-dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(198, 67, 91, 0.28);
+      cursor: pointer;
+      transition: width 180ms ease, background 180ms ease;
+    }
+
+    .sales-testi-dot.is-active {
+      width: 24px;
+      background: var(--sales-rose);
+    }
+
+    @media (max-width: 640px) {
+      .sales-testi-card {
+        flex-basis: min(84%, 320px);
+        min-height: 318px;
+      }
+
+      .sales-testi-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 23px;
+      }
+
+      .sales-testi-nav--prev {
+        left: 6px;
+      }
+
+      .sales-testi-nav--next {
+        right: 6px;
+      }
     }
 
     .sales-note {
@@ -2629,24 +2743,50 @@
             <span class="sales-eyebrow">Resultados reales de alumnas</span>
             <h2>No es solo lo que yo digo</h2>
 
-            <div class="sales-testi-grid">
-              <div class="sales-testi-card">
-                <div class="sales-testi-top"><div class="sales-testi-avatar">M</div><div><div class="sales-testi-name">María</div><div class="sales-testi-days">Volvió en 5 minutos*</div></div></div>
-                <div class="sales-stars">★★★★★</div>
-                <p>Mandé el mensaje que empieza con la letra H y en minutos él ya me había respondido. Hoy estamos planeando vivir juntos.</p>
+            <div class="sales-testi-carousel" data-testi-carousel>
+              <button class="sales-testi-nav sales-testi-nav--prev" type="button" aria-label="Testimonio anterior" data-testi-prev>‹</button>
+
+              <div class="sales-testi-grid" data-testi-track tabindex="0" aria-label="Testimonios de alumnas">
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem21.png" alt="Foto de María" loading="lazy"><div><div class="sales-testi-name">María</div><div class="sales-testi-days">Volvió en 5 minutos*</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Mandé el mensaje que empieza con la letra H y en minutos él ya me había respondido. Hoy estamos planeando vivir juntos.</p>
+                </article>
+
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem22.png" alt="Foto de Mariana" loading="lazy"><div><div class="sales-testi-name">Mariana, 30 años</div><div class="sales-testi-days">Reconquista en un evento en vivo</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Casi ni nos hablábamos. Usé la frase paso a paso, sin cambiar nada, y él subió al escenario frente a todos para pedirme que volviéramos.</p>
+                </article>
+
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem23.png" alt="Foto de Sofía" loading="lazy"><div><div class="sales-testi-name">Sofía, 50 años</div><div class="sales-testi-days">Tras 1 mes separados</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Él ya estaba saliendo con otra persona. Casi desisto, pero con la frase número 3 finalmente me respondió y me desbloqueó.</p>
+                </article>
+
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem24.png" alt="Foto de Laura" loading="lazy"><div><div class="sales-testi-name">Laura, 38 años</div><div class="sales-testi-days">Después de 12 días sin respuesta</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Yo pensaba que ya era tarde. Envié la primera frase, esperé como decía la guía y él volvió preguntando si podíamos hablar con calma.</p>
+                </article>
+
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem25.png" alt="Foto de Valentina" loading="lazy"><div><div class="sales-testi-name">Valentina, 27 años</div><div class="sales-testi-days">Él dejó el orgullo de lado</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Antes yo mandaba textos enormes y solo lo alejaba más. Con el protocolo fui directa, segura, y por primera vez él fue quien insistió en verme.</p>
+                </article>
+
+                <article class="sales-testi-card">
+                  <div class="sales-testi-top"><img class="sales-testi-avatar" src="imagem26.png" alt="Foto de Camila" loading="lazy"><div><div class="sales-testi-name">Camila, 44 años</div><div class="sales-testi-days">El contacto cero no funcionaba</div></div></div>
+                  <div class="sales-stars">★★★★★</div>
+                  <p>Llevaba semanas sin avances. La secuencia me ayudó a hablar sin rogar, y esa misma noche él me dijo que todavía pensaba en mí.</p>
+                </article>
               </div>
 
-              <div class="sales-testi-card">
-                <div class="sales-testi-top"><div class="sales-testi-avatar">M</div><div><div class="sales-testi-name">Mariana, 30 años</div><div class="sales-testi-days">Reconquista en un evento en vivo</div></div></div>
-                <div class="sales-stars">★★★★★</div>
-                <p>Casi ni nos hablábamos. Usé la frase paso a paso, sin cambiar nada, y él subió al escenario frente a todos para pedirme que volviéramos.</p>
-              </div>
+              <button class="sales-testi-nav sales-testi-nav--next" type="button" aria-label="Siguiente testimonio" data-testi-next>›</button>
 
-              <div class="sales-testi-card">
-                <div class="sales-testi-top"><div class="sales-testi-avatar">S</div><div><div class="sales-testi-name">Sofía, 50 años</div><div class="sales-testi-days">Tras 1 mes separados</div></div></div>
-                <div class="sales-stars">★★★★★</div>
-                <p>Él ya estaba saliendo con otra persona. Casi desisto, pero con la frase número 3 finalmente me respondió y me desbloqueó.</p>
-              </div>
+              <div class="sales-testi-dots" aria-label="Navegación de testimonios" data-testi-dots></div>
             </div>
 
             <p class="sales-note">*Testimonios individuales. Los resultados varían según cada situación.</p>
@@ -2679,7 +2819,7 @@
                 <div class="sales-price-row"><span>Precio normal del protocolo</span><span>$97</span></div>
               </div>
 
-              <div class="sales-price-final">$14<small>,90 USD hoy</small></div>
+              <div class="sales-price-final">$6<small>,90 USD hoy</small></div>
               <div class="sales-price-per-day">≈ $0,30 al día · acceso inmediato por correo</div>
 
               <div class="sales-countdown" aria-label="Oferta por tempo limitado">
@@ -2687,7 +2827,7 @@
                 <div class="sales-countdown-box"><b data-sales-sec>59</b><span>Seg</span></div>
               </div>
 
-              <a href="https://pay.hotmart.com/Q106603860D?checkoutMode=10" class="sales-btn" style="width:100%;">Sí, quiero el Código de la Reconquista</a>
+              <a href="https://pay.hotmart.com/Q106603860D?off=l9vmquc8&checkoutMode=10" class="sales-btn" style="width:100%;">Sí, quiero el Código de la Reconquista</a>
               <p class="sales-btn-sub">Pago seguro · Garantía de 7 días · Precio convertido a tu moneda local en la siguiente página</p>
             </div>
           </div>
@@ -2778,6 +2918,123 @@
             showPlaceholder();
           }
         }
+      });
+    }
+
+    function setupTestimonialsCarousel() {
+      document.querySelectorAll("[data-testi-carousel]").forEach((carousel) => {
+        const track = carousel.querySelector("[data-testi-track]");
+        const cards = Array.from(carousel.querySelectorAll(".sales-testi-card"));
+        const prevButton = carousel.querySelector("[data-testi-prev]");
+        const nextButton = carousel.querySelector("[data-testi-next]");
+        const dotsWrap = carousel.querySelector("[data-testi-dots]");
+        let dots = [];
+        let scrollFrame;
+
+        if (!track || !cards.length || !prevButton || !nextButton || !dotsWrap) {
+          return;
+        }
+
+        function getGap() {
+          const styles = window.getComputedStyle(track);
+          return parseFloat(styles.columnGap || styles.gap) || 16;
+        }
+
+        function getStep() {
+          return cards[0].getBoundingClientRect().width + getGap();
+        }
+
+        function getVisibleCount() {
+          const step = getStep();
+
+          if (!track.clientWidth || step <= 0) {
+            return 1;
+          }
+
+          return Math.max(1, Math.min(cards.length, Math.round((track.clientWidth + getGap()) / step)));
+        }
+
+        function getPageCount() {
+          return Math.max(1, cards.length - getVisibleCount() + 1);
+        }
+
+        function getActiveIndex() {
+          const step = getStep();
+
+          if (step <= 0) {
+            return 0;
+          }
+
+          return Math.min(getPageCount() - 1, Math.max(0, Math.round(track.scrollLeft / step)));
+        }
+
+        function scrollToIndex(index) {
+          const pageCount = getPageCount();
+          const targetIndex = Math.min(pageCount - 1, Math.max(0, index));
+
+          cards[targetIndex].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "start"
+          });
+        }
+
+        function renderDots() {
+          const pageCount = getPageCount();
+
+          if (dots.length === pageCount) {
+            return;
+          }
+
+          dotsWrap.innerHTML = "";
+          dots = Array.from({ length: pageCount }, (_, index) => {
+            const dot = document.createElement("button");
+            dot.className = "sales-testi-dot";
+            dot.type = "button";
+            dot.setAttribute("aria-label", `Ver testimonio ${index + 1}`);
+            dot.addEventListener("click", () => scrollToIndex(index));
+            dotsWrap.appendChild(dot);
+            return dot;
+          });
+        }
+
+        function updateState() {
+          if (!track.clientWidth) {
+            return;
+          }
+
+          renderDots();
+
+          const activeIndex = getActiveIndex();
+          dots.forEach((dot, index) => {
+            dot.classList.toggle("is-active", index === activeIndex);
+          });
+
+          prevButton.classList.toggle("is-disabled", track.scrollLeft <= 1);
+          nextButton.classList.toggle("is-disabled", track.scrollLeft >= track.scrollWidth - track.clientWidth - 1);
+        }
+
+        function refreshState() {
+          window.requestAnimationFrame(updateState);
+        }
+
+        prevButton.addEventListener("click", () => {
+          scrollToIndex(getActiveIndex() - 1);
+        });
+
+        nextButton.addEventListener("click", () => {
+          scrollToIndex(getActiveIndex() + 1);
+        });
+
+        track.addEventListener("scroll", () => {
+          window.cancelAnimationFrame(scrollFrame);
+          scrollFrame = window.requestAnimationFrame(updateState);
+        });
+
+        window.addEventListener("resize", refreshState);
+        window.addEventListener("quizscreenchange", refreshState);
+
+        refreshState();
       });
     }
 
@@ -2887,6 +3144,7 @@
         currentScreen.classList.remove("is-leaving");
         targetScreen.hidden = false;
         targetScreen.classList.add("is-entering");
+        window.dispatchEvent(new Event("quizscreenchange"));
         window.scrollTo({ top: 0, behavior: "smooth" });
 
         window.requestAnimationFrame(() => {
@@ -2942,6 +3200,7 @@
     });
 
     setupImagePlaceholders();
+    setupTestimonialsCarousel();
     setupSalesPage();
   </script>
 </body>
